@@ -1,0 +1,26 @@
+.shared_hidden_key: &shared 
+  before_script:
+    - docker login -u "<login_id>" -p "<passord>"
+
+stages:
+ - build_images
+ - setup
+ - deploy
+ 
+job1:
+  tags:
+    - <runner_name>
+  <<: *shared
+  stage: build_images
+  script:
+  - docker build -t swiftops/registerservice .
+  - docker push swiftops/registerservice
+  
+
+job2:
+  tags:
+    - <runner_name>
+  stage: setup
+  script:
+  - pip install --user -r requirements.txt
+

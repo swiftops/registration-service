@@ -1,0 +1,239 @@
+swagger: "2.0"
+info:
+  description: "This service is used to add/delete/update any microservice master data and to add/delete/update any new service"
+  version: "1.0.0"
+  title: "Register Service"
+  contact:
+    email: "<email>"
+  license:
+    name: "<name>"
+    url: "<url>"
+host: "<host>"
+tags:
+- name: "register service"
+  description: "Add/Delete/Update any service"
+- name: "master service"
+  description: "Add/Delete/Update master data"
+schemes:
+- "http"
+paths:
+  /registerservice/swiftservice:
+    post:
+      tags:
+      - "master service"
+      summary: "Add a new master data"
+      operationId: "register_service_util.add_master_service"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Add server master data"
+        required: true
+        schema:
+          $ref: "#/definitions/Master"
+      responses:
+        405:
+          description: "Invalid input"
+    put:
+      tags:
+      - "master service"
+      summary: "Update an existing master data"
+      description: ""
+      operationId: "register_service_util.update_master_service"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Release and build number in the body along with authheader"
+        required: true
+        schema:
+          $ref: "#/definitions/Master"
+      responses:
+        404:
+          description: "Service not found"
+        405:
+          description: "Something went wrong!!"
+    delete:
+      tags:
+      - "master service"
+      summary: "Deletes a master data"
+      operationId: "register_service_util.delete_master_service"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Keyword to fetchr"
+        required: true
+        schema:
+          $ref: "#/definitions/GetMaster"
+      responses:
+         404:
+          description: "Service not found"
+         405:
+          description: "Something went wrong!!"
+  /registerservice/get_master_data:
+    post:
+      tags:
+      - "master service"
+      summary: "Finds master data based on the keyword"
+      operationId: "register_service_util.get_master_data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Keyword to fetchr"
+        required: true
+        schema:
+          $ref: "#/definitions/GetMaster"
+      responses:
+        404:
+          description: "Service not found"
+        405:
+          description: "Something went wrong!!"
+  /registerservice/filterservice:
+    post:
+      tags:
+      - "register service"
+      summary: "Add a new service"
+      operationId: "register_service_util.register_service"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Add service data"
+        required: true
+        schema:
+          $ref: "#/definitions/ServiceData"
+      responses:
+        405:
+          description: "Invalid input"
+    put:
+      tags:
+      - "register service"
+      summary: "Update an existing service"
+      description: ""
+      operationId: "register_service_util.update_service"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Release and build number in the body along with authheader"
+        required: true
+        schema:
+          $ref: "#/definitions/ServiceData"
+      responses:
+        404:
+          description: "Service not found"
+        405:
+          description: "Something went wrong!!"
+    delete:
+      tags:
+      - "register service"
+      summary: "Deletes a service"
+      operationId: "register_service_util.delete_service"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Keyword to fetchr"
+        required: true
+        schema:
+          $ref: "#/definitions/GetMaster"
+      responses:
+         404:
+          description: "Service not found"
+         405:
+          description: "Something went wrong!!"
+  /registerservice/get_filter_service:
+    post:
+      tags:
+      - "register service"
+      summary: "Finds service based on the keyword"
+      operationId: "register_service_util.get_service_data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "Keyword to fetchr"
+        required: true
+        schema:
+          $ref: "#/definitions/GetMaster"
+      responses:
+        404:
+          description: "Service not found"
+        405:
+          description: "Something went wrong!!"
+definitions:
+  Master:
+    type: "object"
+    properties:
+      authheader:
+        $ref: "#/definitions/AuthHeader"
+      data:
+         type: "object"
+  GetMaster:
+    type: "object"
+    properties:
+      authheader:
+        $ref: "#/definitions/AuthHeader"
+      data:
+         $ref: "#/definitions/GetMasterData"
+  GetMasterData:
+    type: "object"
+    properties:
+      keyword: 
+        type: "string"
+  AuthHeader:
+    type: "object"
+    properties:
+      authtoken:
+        type: "string"
+      userid:
+        type: "string"
+  ServiceData:
+    type: "object"
+    properties: 
+      authheader:
+        $ref: "#/definitions/AuthHeader"
+      data:
+         $ref: "#/definitions/ServiceDataObject"
+  ServiceDataObject:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      value:
+        type: "object"
+        properties:
+          url:
+            type: "string"
+          filter_url: 
+            type: "string"
+          intent:
+            type: "string"
+          entities:
+            type: "object"
+          show_all:
+            type: "string"
+          format:
+            type: "string"
+          label:
+            type: "string"
+          enable:
+            type: "string"
