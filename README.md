@@ -1,7 +1,7 @@
 # Register Microservice
 
 ### Introduction
-This microservice is used to register/modify/delete microservice as well as filter in mongo service and filter repository.
+This microservice is core plugin for chatops product. It is used to add custom service,modify and delete existing  microservice as well as filter in mongo service and filter repository.Example:to add custom intent <custom_intent_name>
 
 service api's :
 
@@ -20,20 +20,20 @@ service api's :
 ### Pre-Requisite
 
 1. python 3.6.0 or above version.
-2. docker (optional) Refer [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) documentation.	
-3. mongo-db
+2. docker Refer [Install Docker](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-16-04) documentation.	
+3. [mongo-db] (https://www.mongodb.com/)
 	
 ## Installation
 
 #### Checkout Repository
 ```
-$git clone <Your Git clone Path>
+$git clone https://github.com/swiftops/registration-service.git
 ```
 
 ##### Configuration
 
 Steps :
-1. Open system.properties edit database ip
+1. Open system.properties edit database ip and port which is used to establish connection with mongo db. 
 
 ### 1. Deploy inside Docker
     
@@ -44,20 +44,14 @@ docker build -t <image-name>
 docker run -p  --name ms-registerservice -d <image-name>
 ```
 
-#### To access Microservice Swagger API Documentation
-```
-http://<ip>:5005/ui
-```
-Note - To get your IP in api url change host property in swagger.yaml and restart service.
 
 ### 2. On Commit Auto-deploy on specific server.
 ---
 To autodeploy docker container based service on server used below steps
 * You need to configure Gitlab Runner to execute Gitlab CI/CD Pipeline. See [Gitlab Config](https://docs.gitlab.com/runner/install)
-<Configure .gitlab-ci.yml and deploy.sh as per your need and remove this line>
-
-Once configured, Gitlab runner's auto deployment will start as code is commited in the repository.
+As soon as you configure runner auto deployment will start as you commited the code in repository.
 refer .gitlab-ci.yml file.
+
 
 ### 3. Deploy on local environment.
 ----
@@ -103,3 +97,5 @@ python services.py
 #### To access Microservice Swagger API Documentation
 ```
 http://<yourip>:<port>/ui
+
+Note - To get your IP in api url change host property in swagger.yaml and restart service.
